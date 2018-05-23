@@ -1,5 +1,5 @@
 {
-  "name": "ejs-loader",
+  "name": "ejs-do-loader",
   "version": "0.0.1",
   "description": "ejs loader for webpack",
   "main": "index.js",

@@ -1,12 +1,14 @@
-import { getOptions, parseQuery } from 'loader-utils'
-import ejs from 'ejs'
+const utils = require('loader-utils')
+const ejs = require('ejs')
+const path = require('path')
 
-export default function loader(source) {
-  this.cacheable && this.cacheable();
-  const query = parseQuery(this.query);
-  const options = getOptions(this);
+module.exports = function (source) {
+  this.cacheable && this.cacheable()
+  var options = utils.getOptions(this)
 
-  let template = ejs.compile(source, Object.assign({}, query, options))
+  options.filename = path.relative(process.cwd(), this.resourcePath)
 
-  return `export default  ${template}`;
-};
+  let compileFn = ejs.compile(source, options)
+
+  return 'module.exports = ' + JSON.stringify(compileFn({}))
+}
